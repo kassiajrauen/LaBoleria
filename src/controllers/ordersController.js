@@ -111,7 +111,7 @@ export async function getOrders(req, res) {
         JOIN cakes ON cakes.id=orders."cakeId"
         WHERE "createdAt" = $1
         `,
-        [`${date}%`]
+        [`${date}`]
       );
 
       const orderResultOfDate = orders.rows.map((order) => ({

@@ -15,7 +15,12 @@ export async function postCakes(req, res) {
   }
 
   try {
-    if (name.length < 2 || price < 0) {
+    if (
+      name.length < 2 ||
+      price < 0 ||
+      typeof price != "number" ||
+      typeof description != "string"
+    ) {
       return res.sendStatus(400);
     }
 
