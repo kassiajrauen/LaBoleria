@@ -14,21 +14,22 @@ export async function postCakes(req, res) {
     return res.sendStatus(422);
   }
 
-  if (name.length < 2 || price < 0) {
-    return res.sendStatus(400);
-  }
+  try {
+    if (name.length < 2 || price < 0) {
+      return res.sendStatus(400);
+    }
 
-  const result = await connection.query(
-    `
+    const result = await connection.query(
+      `
         SELECT id FROM cakes 
         WHERE name=$1
     `,
-    [name]
-  );
-  if (result.rowCount > 0) {
-    return res.sendStatus(409);
-  }
-  try {
+      [name]
+    );
+    if (result.rowCount > 0) {
+      return res.sendStatus(409);
+    }
+
     await connection.query(
       `
             INSERT INTO
@@ -37,9 +38,9 @@ export async function postCakes(req, res) {
             `,
       [name, price, description, image]
     );
-    res.sendStatus(201);
+    return res.sendStatus(201);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 }

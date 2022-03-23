@@ -37,10 +37,6 @@ export async function postOrder(req, res) {
     return res.sendStatus(404);
   }
 
-  if (parseInt(quantity) < 0 && parseInt(quantity) > 5) {
-    return res.sendStatus(400);
-  }
-
   try {
     await connection.query(
       `
@@ -139,7 +135,7 @@ export async function getOrders(req, res) {
       }));
 
       if (orderResultOfDate.length === 0) {
-        return res.sendStatus(404);
+        return res.status(404).send([]);
       } else {
         res.send(orderResultOfDate);
       }
